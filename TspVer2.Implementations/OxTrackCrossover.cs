@@ -59,16 +59,18 @@ namespace TspVer2.Implementations
                         destinationIndex = 0;
                         indexReset = true;
                     }
-                    else if (destinationIndex >= startIndex && indexReset)
-                    {
-                        filled = true;
-                    }
+
                 }
 
                 parentIndex++;
                 if (parentIndex >= second.Length)
                 {
                     parentIndex = 0;
+                }
+
+                if (!firstArray.Contains(-1))
+                {
+                    filled = true;
                 }
             }
 

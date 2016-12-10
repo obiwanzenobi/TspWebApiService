@@ -11,27 +11,27 @@ namespace TspVer2.Models
 
         public MatrixOfWeights(int size)
         {
-            matrix = new int[size, size];
+            Matrix = new int[size, size];
         }
 
-        public int[,] matrix { get; }
+        public int[,] Matrix { get; set; }
 
         public int this[int x, int y]
         {
             get
             {
-                return matrix[x, y];
+                return Matrix[x, y];
             }
             
             set
             {
-                matrix[x, y] = value;
+                Matrix[x, y] = value;
             }
         }
 
         public int GetSize()
         {
-            return matrix.GetLength(0);
+            return Matrix.GetLength(0);
         }
     }
 }

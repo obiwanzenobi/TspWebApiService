@@ -90,6 +90,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TspResolveRequest.cs" />
+    <Compile Include="Models\TspResolveResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +105,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interface\TspVer2.Interfaces.csproj">
+      <Project>{e9a75d35-a5f4-441e-bcf2-100ff79294a2}</Project>
+      <Name>TspVer2.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TspVer2.Implementations\TspVer2.Implementations.csproj">
+      <Project>{fe67ae5e-1ef4-412f-b04a-bd2dbc4c8290}</Project>
+      <Name>TspVer2.Implementations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TspVer2.Models\TspVer2.Models.csproj">
+      <Project>{57fc610d-c700-4e71-b63b-7770150dc039}</Project>
+      <Name>TspVer2.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

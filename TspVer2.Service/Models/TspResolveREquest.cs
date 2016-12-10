@@ -7,10 +7,11 @@ namespace TspVer2.Service.Models
 {
     public class TspResolveRequest
     {
-        public int popSize { get; set; }
-        public double mutationRate { get; set; }
-        public double crossoverRate { get; set; }
-        public int iterationsNumber { get; set; }
-        public List<int> idList { get; set; }
+        public int PopSize { get; set; }
+        public double MutationRate { get; set; }
+        public double CrossoverRate { get; set; }
+        public int IterationsNumber { get; set; }
+        public List<int> IdList { get; set; }
+        public int[,] WeightMatrix { get; set; }
     }
 }
