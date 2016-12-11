@@ -38,6 +38,15 @@ namespace TspVer2.Service.Controllers
 
                 response.Iterations[i] = new TspResolveResponse.Iteration();
                 response.Iterations[i].Resolves = new List<TspResolveResponse.ResolveContainer>();
+
+                int initialWeightSum = SumWeights(matrix, population.Workers[0]);
+
+                int lowestFirstIndex = 0;
+                double lowestFirstValue = GetFirstFuncResult(initialWeightSum);
+
+                int lowestSecondIndex = 0;
+                double lowestSecondValue = GetSecondFuncResult(initialWeightSum);
+
                 for (int j = 0; j < req.PopSize; j++)
                 {
                     TspResolveResponse.ResolveContainer resolve = new TspResolveResponse.ResolveContainer();
@@ -45,11 +54,25 @@ namespace TspVer2.Service.Controllers
 
                     resolve.FirstCost = GetFirstFuncResult(weightSum);
                     resolve.SecondCost = GetSecondFuncResult(weightSum);
-                    resolve.orderedIdList = population.Workers[j].TrackPoints;
+
+                    if(resolve.FirstCost < lowestFirstValue)
+                    {
+                        lowestFirstIndex = j;
+                        lowestFirstValue = resolve.FirstCost;
+                    }
+                    if(resolve.SecondCost < lowestSecondValue)
+                    {
+                        lowestSecondIndex = j;
+                        lowestSecondValue = resolve.SecondCost;
+                    }
+
+                    resolve.OrderedIdList = population.Workers[j].TrackPoints;
 
                     response.Iterations[i].Resolves.Add(resolve);
                 }
                 response.Iterations[i].Id = i;
+                response.Iterations[i].BestFirstFuncResolveIndex = lowestFirstIndex;
+                response.Iterations[i].BestSecondFuncResolveIndex = lowestSecondIndex;
 
                 ITrackMutator mutator = new TrackInversionMutationService(randomGen);
                 IPopulationMutator popMutator = new PopulationMutatorService(mutator, randomGen);

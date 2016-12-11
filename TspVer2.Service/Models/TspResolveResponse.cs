@@ -14,6 +14,9 @@ namespace TspVer2.Service.Models
 
             public int Id { get; set; }
             public List<ResolveContainer> Resolves { get; set; }
+
+            public int BestFirstFuncResolveIndex { get; set; }
+            public int BestSecondFuncResolveIndex { get; set; }
         }
 
         public class ResolveContainer
@@ -21,7 +24,7 @@ namespace TspVer2.Service.Models
             public double FirstCost { get; set; }
             public double SecondCost { get; set; }
 
-            public List<int> orderedIdList { get; set; }
+            public List<int> OrderedIdList { get; set; }
         }
 
 
