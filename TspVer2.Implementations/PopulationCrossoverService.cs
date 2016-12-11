@@ -31,6 +31,8 @@ namespace TspVer2.Implementations
                 }
             }
 
+            population.Workers.Shuffle(_random);
+
         }
     }
 }
