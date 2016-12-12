@@ -1,0 +1,51 @@
+﻿.form-control {
+    width: 90% !important;
+}
+
+pre.first-header {
+    width: 97%;
+}
+
+pre.second-header {
+    margin-left: -30px;
+}
+
+div.first-header-row {
+    margin: 15px 0 0 0;
+}
+
+div.second-header-row {
+    margin: 40px 15px 0 0;
+}
+
+div.third-header-row {
+    margin: 15px 15px 15px 0;
+}
+
+div > form {
+    margin-left: 15px;
+}
+
+#base-graph-container {
+    top: 68px;
+    bottom: 0;
+    right: 30px;
+    position: absolute;
+    height: 460px !important;
+}
+
+#first-path-graph-container, #second-path-graph-container, #third-path-graph-container, #fourth-path-graph-container {
+    bottom: 0;
+    height: 200px !important;
+    position: relative;
+    margin-left: -5px;
+    margin-bottom: 30px;
+}
+
+.paths-container {
+    margin-bottom: 15px;
+}
+
+#drawGraphBtn {
+    margin-bottom: 10px;
+}

@@ -23,12 +23,12 @@ namespace TspVer2.Service.Controllers
             //MatrixOfWeights matrix1 = generatorService.GenerateMatrixWithWeights(trackPointsCount);
             //MatrixOfWeights matrix2 = generatorService.GenerateMatrixWithWeights(trackPointsCount);
 
-            MatrixOfWeights matrix = new MatrixOfWeights(req.IdList.Count);
+            MatrixOfWeights matrix = new MatrixOfWeights(req.IdList.ToList().Count);
             matrix.Matrix = req.WeightMatrix;
             //MatrixOfWeights matrix = generatorService.GenerateMatrixWithWeights(req.IdList.Count);
 
             IPopulationGenerator populationGenerator = new RandomPopulationGeneratorService();
-            Population population = populationGenerator.GeneratePopulation(req.PopSize, req.IdList.Count);
+            Population population = populationGenerator.GeneratePopulation(req.PopSize, req.IdList.ToList().Count);
 
             TspResolveResponse response = new TspResolveResponse();
             response.Iterations = new TspResolveResponse.Iteration[req.IterationsNumber];

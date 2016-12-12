@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafy</title>
+
+    <link rel="shortcut icon" href="">
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/app.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery/jquery-3.1.0.min.js"></script>
+    <script src="~/Scripts/jquery/jquery.blockUI.js"></script>
+
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/sigma/sigma.min.js"></script>
+    <script src="~/Scripts/sigma/plugins/sigma.renderers.edgeLabels.min.js"></script>
+    <script src="~/Scripts/sigma/plugins/sigma.plugins.dragNodes.min.js"></script>
+
+    <script src="~/Scripts/app/app.js"></script>
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+</body>
+</html>

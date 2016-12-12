@@ -1,0 +1,91 @@
+﻿<div class="row first-header-row">
+    <div class="col-sm-3">
+        <pre class="first-header">Dane do obliczeń</pre>
+    </div>
+    <div class="col-sm-9">
+        <pre class="second-header">Graf bazowy</pre>
+    </div>
+</div>
+<div>
+    <div class="col-sm-3">
+        <form>
+            <div class="form-group">
+                <label>Liczba wierzchołków (N)</label>
+                <input type="number" id="nValue" class="form-control integer" placeholder="Liczba wierzchołków">
+            </div>
+            <button type="button" class="btn btn-success" id="drawGraphBtn">Rysuj graf</button>
+        </form>
+        <form>
+            <div class="form-group">
+                <label>Wielkość populacji</label>
+                <input type="number" id="pValue" class="form-control integer" placeholder="Wielkość populacji">
+            </div>
+            <div class="form-group">
+                <label>Współczynnik mutacji</label>
+                <input type="text" id="mValue" class="form-control float" placeholder="Współczynnik mutacji">
+            </div>
+            <div class="form-group">
+                <label>Współczynnik krzyżowania</label>
+                <input type="text" id="kValue" class="form-control float" placeholder="Współczynnik krzyżowania">
+            </div>
+            <div class="form-group">
+                <label>Liczba iteracji</label>
+                <input type="number" id="iValue" class="form-control integer" placeholder="Liczba iteracji">
+            </div>
+            <button type="button" class="btn btn-info" id="computePathBtn">Oblicz ścieżkę</button>
+            <button type="button" class="btn btn-warning" id="clearBtn">Wyczyść</button>
+        </form>
+    </div>
+    <div id="container">
+        <div class="col-sm-9" id="base-graph-container"></div>
+    </div>
+</div>
+<div class="col-sm-12 second-header-row">
+    <pre>Wyniki</pre>
+</div>
+<div class="col-sm-12">
+    <div class="col-sm-6" id="chart_div_line"></div>
+    <div class="col-sm-6" id="chart_div_scatter"></div>
+</div>
+<div class="col-sm-12 third-header-row">
+    <pre>Przykładowe trasy</pre>
+</div>
+<div class="paths-container">
+    <div class="col-sm-3" id="first-path-graph-container"></div>
+    <div class="col-sm-3" id="second-path-graph-container"></div>
+    <div class="col-sm-3" id="third-path-graph-container"></div>
+    <div class="col-sm-3" id="fourth-path-graph-container"></div>
+</div>
+
+
+<div id="warningModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+    <style>
+        .modal-dialog {
+            top: 100px;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            border-color: orange;
+        }
+
+        .modal-body {
+            background-color: #e38d13;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5 id="warningMessage"></h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loading-gif" style="display: none">
+    <img src="~/Content/loading.gif" alt="" width="120" style="opacity: 0.8" />
+</div>
