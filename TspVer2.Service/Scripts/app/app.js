@@ -71,7 +71,7 @@ $(document).ready(function () {
         var iterationsNumber = $("#iValue").val();
 
         if (popSize.length > 0 && mutationRate.length > 0 && crossoverRate.length > 0 && iterationsNumber.length > 0) {
-            // $.blockUI(window.blockUIImage);
+           // $.blockUI(window.blockUIImage);
 
             var model =
                 {
@@ -110,10 +110,10 @@ $(document).ready(function () {
                     drawPathGraph("third-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
                     drawPathGraph("fourth-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
 
-                    //     $.unblockUI();
+                  //  $.unblockUI();
                 },
                 error: function () {
-                    //   $.unblockUI();
+                  // $.unblockUI();
                 }
             });
         }
@@ -251,24 +251,35 @@ function drawLineChart(iterations) {
 };
 
 function drawScatterChart(iterations) {
-    var data = google.visualization.arrayToDataTable([
-              ['X', 'Y'],
-              [1, 12],
-              [2, 5.5],
-              [3, 14],
-              [4, 5],
-              [5, 3.5],
-              [6, 7],
-              [7, 8],
-              [8, 5.6],
-              [9, 13.5],
-              [10, 17]
-    ]);
+    //var data = google.visualization.arrayToDataTable([
+    //          ['X', 'Y'],
+    //          [1, 12],
+    //          [2, 5.5],
+    //          [3, 14],
+    //          [4, 5],
+    //          [5, 3.5],
+    //          [6, 7],
+    //          [7, 8],
+    //          [8, 5.6],
+    //          [9, 13.5],
+    //          [10, 17]
+    //]);
+
+    var rawData = [];
+    rawData.push(['X', 'Y']);
+
+    var items = iterations[iterations.length - 1].Resolves;
+    for (var i = 0; i < items.length; i++) {
+        var item = [i + 1, items[i].FirstCost];
+        rawData.push(item);
+    }
+
+    var data = google.visualization.arrayToDataTable(rawData);
 
     var options = {
-        title: 'Przykładowy diagram',
-        hAxis: { title: 'X', minValue: 0 },
-        vAxis: { title: 'Y', minValue: 0 },
+        title: 'Wartośći osobników populacji',
+        hAxis: { title: 'Osobniki', minValue: 0 },
+        vAxis: { title: 'Wartości', minValue: 0 },
         legend: 'none',
         height: 400
     };
