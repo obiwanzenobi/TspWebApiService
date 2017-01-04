@@ -20,8 +20,8 @@ namespace TspVer2.Service.Controllers
             Random randomGen = new Random();
             IWeightMatrixGeneratorService generatorService = new RandomWeightMatrixGeneratorService(randomGen);
 
-            //MatrixOfWeights matrix1 = generatorService.GenerateMatrixWithWeights(trackPointsCount);
-            //MatrixOfWeights matrix2 = generatorService.GenerateMatrixWithWeights(trackPointsCount);
+            //MatrixOfWeights matrix1 = generatorService.GenerateMatrixWithWeights(req.PopSize);
+            MatrixOfWeights matrix2 = generatorService.GenerateMatrixWithWeights(req.PopSize);
 
             MatrixOfWeights matrix = new MatrixOfWeights(req.IdList.ToList().Count);
             matrix.Matrix = req.WeightMatrix;
@@ -42,25 +42,25 @@ namespace TspVer2.Service.Controllers
                 int initialWeightSum = SumWeights(matrix, population.Workers[0]);
 
                 int lowestFirstIndex = 0;
-                double lowestFirstValue = GetFirstFuncResult(initialWeightSum);
+                double lowestFirstValue = SumWeights(matrix, population.Workers[0]);
 
                 int lowestSecondIndex = 0;
-                double lowestSecondValue = GetSecondFuncResult(initialWeightSum);
+                double lowestSecondValue = SumWeights(matrix2, population.Workers[0]);
 
                 for (int j = 0; j < req.PopSize; j++)
                 {
                     TspResolveResponse.ResolveContainer resolve = new TspResolveResponse.ResolveContainer();
                     int weightSum = SumWeights(matrix, population.Workers[j]);
 
-                    resolve.FirstCost = GetFirstFuncResult(weightSum);
-                    resolve.SecondCost = GetSecondFuncResult(weightSum);
+                    resolve.FirstCost = SumWeights(matrix, population.Workers[j]);
+                    resolve.SecondCost = SumWeights(matrix2, population.Workers[j]);
 
-                    if(resolve.FirstCost < lowestFirstValue)
+                    if (resolve.FirstCost < lowestFirstValue)
                     {
                         lowestFirstIndex = j;
                         lowestFirstValue = resolve.FirstCost;
                     }
-                    if(resolve.SecondCost < lowestSecondValue)
+                     if(resolve.SecondCost < lowestSecondValue)
                     {
                         lowestSecondIndex = j;
                         lowestSecondValue = resolve.SecondCost;
@@ -85,16 +85,6 @@ namespace TspVer2.Service.Controllers
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, response, "application/json");
-        }
-
-        public double GetFirstFuncResult(int weight)
-        {
-            return weight * 2;
-        }
-
-        public double GetSecondFuncResult(int weight)
-        {
-            return weight - (weight / 2);
         }
 
         private int SumWeights(MatrixOfWeights matrix, Track track)
