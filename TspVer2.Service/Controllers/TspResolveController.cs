@@ -60,12 +60,12 @@ namespace TspVer2.Service.Controllers
                     resolve.FirstCost = calc.CalculateWeightSum(population.Workers[j], matrix);
                     resolve.SecondCost = calc.CalculateWeightSum(population.Workers[j], matrix2);
 
-                    if (resolve.FirstCost < lowestFirstValue)
+                    if (resolve.FirstCost > lowestFirstValue)
                     {
                         lowestFirstIndex = j;
                         lowestFirstValue = resolve.FirstCost;
                     }
-                    if (resolve.SecondCost < lowestSecondValue)
+                    if (resolve.SecondCost > lowestSecondValue)
                     {
                         lowestSecondIndex = j;
                         lowestSecondValue = resolve.SecondCost;
