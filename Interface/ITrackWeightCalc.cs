@@ -7,8 +7,8 @@ using TspVer2.Models;
 
 namespace Interface
 {
-    public interface IPopulationEvolution
+    public interface ITrackWeightCalc
     {
-        Population EvolvePopulation(Population basePopulation, MatrixOfWeights[] weightMatrixArray);
+        int CalculateWeightSum(Track pop, MatrixOfWeights matrix);
     }
 }

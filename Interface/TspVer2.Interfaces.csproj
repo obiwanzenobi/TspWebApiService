@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IPopulationCrossover.cs" />
     <Compile Include="IPopulationEvolution.cs" />
+    <Compile Include="ITrackWeightCalc.cs" />
     <Compile Include="ITrackCrossover.cs" />
     <Compile Include="IPopulationGenerator.cs" />
     <Compile Include="IPopulationMutator.cs" />

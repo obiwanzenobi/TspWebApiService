@@ -44,9 +44,11 @@
     <Compile Include="OxTrackCrossover.cs" />
     <Compile Include="PopulationCrossoverService.cs" />
     <Compile Include="PopulationMutatorService.cs" />
+    <Compile Include="TrackWeightCalcImpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomPopulationGeneratorService.cs" />
     <Compile Include="RandomWeightMatrixGeneratorService.cs" />
+    <Compile Include="TournamentEvolutionImpl.cs" />
     <Compile Include="TrackInversionMutationService.cs" />
   </ItemGroup>
   <ItemGroup>

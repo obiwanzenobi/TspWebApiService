@@ -35,7 +35,7 @@ namespace TspVer2.Implementations
 
                     if (j < i)
                     {
-                        matrix[i, j] = _randomGen.Next(1, 100);
+                        matrix[i, j] = _randomGen.Next(1, 10);
                     }
                 }
 
