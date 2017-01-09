@@ -48,11 +48,13 @@ $(document).ready(function () {
                 },
                 settings: {
                     enableEdgeHovering: baseGraphEnableEdgeHovering,
-                    edgeHoverSizeRatio: 3,
+                    edgeHoverSizeRatio: 2,
                     edgeLabelSize: 'proportional',
-                    defaultEdgeLabelSize: 13,
+                    defaultEdgeLabelSize: 14,
                     defaultEdgeLabelColor: 'green',
-                    zoomingRatio: 1.0
+                    zoomingRatio: 1.0,
+                    minEdgeSize: 2,
+                    maxEdgeSize: 2
                 }
             });
             sigma.plugins.dragNodes(baseGraph, baseGraph.renderers[0]);
@@ -105,10 +107,13 @@ $(document).ready(function () {
                     }
                     pathGraphs = [];
 
-                    drawPathGraph("first-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
-                    drawPathGraph("second-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
-                    drawPathGraph("third-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
-                    drawPathGraph("fourth-path-graph-container", result.Iterations[Math.floor(Math.random() * result.Iterations.length)].Resolves[0].OrderedIdList);
+                    var theBestPath = result.Iterations[result.Iterations.length - 1].Resolves[0].OrderedIdList;
+                    var permutates = permutator(theBestPath);
+
+                    drawPathGraph("first-path-graph-container", permutates[Math.ceil(Math.random() * permutates.length)]);
+                    drawPathGraph("second-path-graph-container", permutates[Math.ceil(Math.random() * permutates.length)]);
+                    drawPathGraph("third-path-graph-container", permutates[Math.ceil(Math.random() * permutates.length)]);
+                    drawPathGraph("fourth-path-graph-container", permutates[Math.ceil(Math.random() * permutates.length)]);
 
                   //  $.unblockUI();
                 },
@@ -172,7 +177,9 @@ function drawPathGraph(container, nodes) {
             defaultEdgeLabelColor: 'green',
             zoomingRatio: 1.0,
             minNodeSize: 1,
-            maxNodeSize: 6
+            maxNodeSize: 6,
+            minEdgeSize: 2,
+            maxEdgeSize: 2
         }
     }));
 };
@@ -198,7 +205,7 @@ function drawBaseGraph(n) {
     for (i = n - 1; i >= 0; i--) {
         for (var j = 0; j < i; j++) {
             if (i != j) {
-                var distance = Math.ceil(computeDistanceBetweenNodes(g.nodes[i].x, g.nodes[i].y, g.nodes[j].x, g.nodes[j].y) * 5);
+                var distance = Math.ceil(computeDistanceBetweenNodes(g.nodes[i].x, g.nodes[i].y, g.nodes[j].x, g.nodes[j].y) * 9);
                 g.edges.push({
                     id: 'e' + "_" + i + "_" + j,
                     source: 'n' + i,
@@ -224,20 +231,6 @@ function drawLineChart(iterations) {
 
     var data = google.visualization.arrayToDataTable(rawData);
 
-    //var data = google.visualization.arrayToDataTable([
-    //     ['X', 'F1', 'F2'],
-    //     ['1', 87, 51],
-    //     ['2', 75, 50],
-    //     ['3', 68, 45],
-    //     ['4', 65, 40],
-    //     ['5', 56, 35],
-    //     ['6', 45, 32],
-    //     ['7', 40, 28],
-    //     ['8', 34, 22],
-    //     ['9', 30, 20],
-    //     ['10', 14, 18]
-    //]);
-
     var options = {
         title: 'Wartośći funkcji wzlędem iteracji',
         legend: { position: 'right' },
@@ -251,38 +244,43 @@ function drawLineChart(iterations) {
 };
 
 function drawScatterChart(iterations) {
-    //var data = google.visualization.arrayToDataTable([
-    //          ['X', 'Y'],
-    //          [1, 12],
-    //          [2, 5.5],
-    //          [3, 14],
-    //          [4, 5],
-    //          [5, 3.5],
-    //          [6, 7],
-    //          [7, 8],
-    //          [8, 5.6],
-    //          [9, 13.5],
-    //          [10, 17]
-    //]);
-
     var rawData = [];
-    rawData.push(['X', 'Y']);
 
-    var items = iterations[iterations.length - 1].Resolves;
-    for (var i = 0; i < items.length; i++) {
-        var item = [i + 1, items[i].FirstCost];
+    for (var i = 0; i < iterations.length; i++) {
+        var item = [iterations[i].Resolves[iterations[i].BestFirstFuncResolveIndex].FirstCost, iterations[i].Resolves[iterations[i].BestSecondFuncResolveIndex].SecondCost];
+        item[2] = computeDistanceBetweenNodes(0, 0, item[0], item[1]);
         rawData.push(item);
     }
 
-    var data = google.visualization.arrayToDataTable(rawData);
+    var minValue = 999999;
+    for (var i = 0; i < rawData.length; i++) {
+        if (minValue > rawData[i][2])
+        {
+            minValue = rawData[i][2];
+        }
+    }
 
     var options = {
         title: 'Wartośći osobników populacji',
-        hAxis: { title: 'Osobniki', minValue: 0 },
-        vAxis: { title: 'Wartości', minValue: 0 },
+        hAxis: { title: 'F1', minValue: 0 },
+        vAxis: { title: 'F2', minValue: 0 },
         legend: 'none',
         height: 400
     };
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', '');
+    data.addColumn('number', '');
+    data.addColumn({ 'type': 'string', 'role': 'style' });
+
+    for (var i = 0; i < rawData.length; i++) {
+        if (rawData[i][2] == minValue) {
+            data.addRow([rawData[i][0], rawData[i][1], 'point {fill-color: red']);
+        }
+        else {
+            data.addRow([rawData[i][0], rawData[i][1], '']);
+        }
+    }
 
     var chart = new google.visualization.ScatterChart(document.getElementById('chart_div_scatter'));
     chart.draw(data, options);
@@ -325,6 +323,25 @@ function prepareMatrixOfNodesIds() {
         indexList.push(parseInt(xNodes[i].index));
     }
     return indexList;
+};
+
+function permutator(inputArr) {
+    var results = [];
+
+    function permute(arr, memo) {
+        var cur, memo = memo || [];
+
+        for (var i = 0; i < arr.length; i++) {
+            cur = arr.splice(i, 1);
+            if (arr.length === 0) {
+                results.push(memo.concat(cur));
+            }
+            permute(arr.slice(), memo.concat(cur));
+            arr.splice(i, 0, cur[0]);
+        }
+        return results;
+    }
+    return permute(inputArr);
 };
 
 function showModalWarning(message) {
