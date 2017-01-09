@@ -36,6 +36,16 @@ namespace TspVer2.Service.Controllers
             ITrackWeightCalc calc = new TrackWeightCalcImpl();
             IPopulationEvolution evolution = new TournamentEvolutionImpl(randomGen, calc);
 
+            ITrackMutator mutator = new TrackInversionMutationService(randomGen);
+            IPopulationMutator popMutator = new PopulationMutatorService(mutator, randomGen);
+            popMutator.MutatePopulation(req.MutationRate, population);
+
+            population.Workers.Shuffle(randomGen);
+
+            ITrackCrossover crosser = new OxTrackCrossover(randomGen);
+            IPopulationCrossover popCrosser = new PopulationCrossoverService(randomGen, crosser);
+            popCrosser.DoCrossoverOnPopulation(req.CrossoverRate, population);
+
             for (int i = 0; i < req.IterationsNumber; i++)
             {
 
@@ -55,7 +65,6 @@ namespace TspVer2.Service.Controllers
                 for (int j = 0; j < req.PopSize; j++)
                 {
                     TspResolveResponse.ResolveContainer resolve = new TspResolveResponse.ResolveContainer();
-                    //int weightSum = SumWeights(matrix, population.Workers[j]);
 
                     resolve.FirstCost = calc.CalculateWeightSum(population.Workers[j], matrix);
                     resolve.SecondCost = calc.CalculateWeightSum(population.Workers[j], matrix2);
@@ -78,16 +87,6 @@ namespace TspVer2.Service.Controllers
                 response.Iterations[i].Id = i;
                 response.Iterations[i].BestFirstFuncResolveIndex = lowestFirstIndex;
                 response.Iterations[i].BestSecondFuncResolveIndex = lowestSecondIndex;
-
-                ITrackMutator mutator = new TrackInversionMutationService(randomGen);
-                IPopulationMutator popMutator = new PopulationMutatorService(mutator, randomGen);
-                popMutator.MutatePopulation(req.MutationRate, population);
-
-                population.Workers.Shuffle(randomGen);
-
-                ITrackCrossover crosser = new OxTrackCrossover(randomGen);
-                IPopulationCrossover popCrosser = new PopulationCrossoverService(randomGen, crosser);
-                popCrosser.DoCrossoverOnPopulation(req.CrossoverRate, population);
 
             }
 
